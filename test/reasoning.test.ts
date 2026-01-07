@@ -1,0 +1,45 @@
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { createAdapter, DEEPSEEK_MODELS } from '../src/index';
+import { getRequiredVariable } from './common';
+
+const apiKey = getRequiredVariable('DEEPSEEK_API_KEY');
+
+const adapter = createAdapter({ apiKey });
+
+async function main() {
+    console.log('Starting Reasoning Model Test (DeepSeek R1)...');
+
+    const model = DEEPSEEK_MODELS.REASONER;
+
+    try {
+        console.log(`Testing reasoning model: ${model}`);
+        const result = await adapter.createChatCompletion({
+            model,
+            messages: [
+                {
+                    role: 'user',
+                    content: 'A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost? Explain your reasoning step-by-step.',
+                },
+            ],
+        });
+
+        const fileName = `reasoning-${model}.json`;
+        const filePath = join(__dirname, 'responses', fileName);
+        await writeFile(filePath, JSON.stringify(result, null, 2));
+
+        console.log(`Saved result to ${filePath}`);
+        console.log(`Cost: ${result.price?.total} ${result.price?.currency}`);
+
+        // DeepSeek R1 response might contain reasoning_content in the future, 
+        // but currently it's usually in content or a specific field.
+        // For now, we log the message content.
+        console.log(`Response: ${result.choices[0].message.content}`);
+    } catch (error) {
+        console.error(`Failed for model ${model}:`, error);
+    }
+
+    console.log('Reasoning Model Test Completed.');
+}
+
+main().catch(console.error);
