@@ -15,12 +15,19 @@ export interface DeepSeekContext {
     logger?: Logger;
 }
 
-export type ChatMessageRole = 'system' | 'user' | 'assistant' | 'tool' | 'developer';
+export type ChatMessageRole = 'system' | 'user' | 'assistant' | 'tool';
 
 export interface ChatMessage {
     role: ChatMessageRole;
     content: string;
     name?: string;
+}
+
+export interface PriceInfo {
+    total: number;
+    inputCost: number;
+    outputCost: number;
+    currency: string;
 }
 
 export interface CreateChatCompletionInput {
@@ -49,5 +56,10 @@ export interface CreateChatCompletionOutput {
         prompt_tokens: number;
         completion_tokens: number;
         total_tokens: number;
+        prompt_tokens_details?: {
+            cached_tokens: number;
+        };
     };
+    price?: PriceInfo;
+    input?: CreateChatCompletionInput;
 }

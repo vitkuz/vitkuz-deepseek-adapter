@@ -1,7 +1,7 @@
 {
-  "id": "71b09490-69ec-4f0c-a1c9-9b295f0fc965",
+  "id": "f3e59aa0-946f-4d3d-925b-2a1d63046fa3",
   "object": "chat.completion",
-  "created": 1767369397,
+  "created": 1767797286,
   "model": "deepseek-chat",
   "choices": [
     {
@@ -24,5 +24,24 @@
     "prompt_cache_hit_tokens": 0,
     "prompt_cache_miss_tokens": 16
   },
-  "system_fingerprint": "fp_eaab8d114b_prod0820_fp8_kvcache"
+  "system_fingerprint": "fp_eaab8d114b_prod0820_fp8_kvcache",
+  "price": {
+    "total": 0.000035,
+    "inputCost": 0.000004,
+    "outputCost": 0.000031,
+    "currency": "USD"
+  },
+  "input": {
+    "model": "deepseek-chat",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant."
+      },
+      {
+        "role": "user",
+        "content": "Hello! How are you?"
+      }
+    ]
+  }
 }
